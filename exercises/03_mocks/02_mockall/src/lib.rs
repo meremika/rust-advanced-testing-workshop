@@ -9,6 +9,7 @@ where
     y
 }
 
+#[mockall::automock]
 pub trait Logger {
     fn log(&self, msg: &str);
 }
@@ -23,11 +24,14 @@ impl Logger for PrintlnLogger {
 
 #[cfg(test)]
 mod tests {
+    use crate::MockLogger;
+
     use super::square;
 
     #[test]
     fn square_works() {
-        let mock_logger = todo!();
+        let mut mock_logger = MockLogger::new();
+        mock_logger.expect_log().times(1).returning(|_| {});
         assert_eq!(square(2, mock_logger), 4);
     }
 }
