@@ -1,9 +1,12 @@
 //! Write a custom `is_redirect` matcher that checks if a `StatusCode` is a redirect.
-use googletest::matcher::Matcher;
+use googletest::{matcher::Matcher, prelude::predicate};
 use http::StatusCode;
 
 pub fn is_redirect() -> impl Matcher<StatusCode> {
-    todo!()
+    predicate(|s: StatusCode| s.is_redirection()).with_description(
+        "is a redirection status code",
+        "isn't a redirection status code",
+    )
 }
 
 #[cfg(test)]
